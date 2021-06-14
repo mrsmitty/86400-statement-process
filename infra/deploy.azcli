@@ -1,0 +1,14 @@
+PREFIX=$1
+
+RESOURCE_GROUP="$PREFIX-SYD-ARG-86400"
+FUNC="$PREFIX-SYD-FUN-86400"
+STORAGE="${PREFIX,,}sydsta86400"
+LOCATION="australiaeast"
+
+az group create -n $RESOURCE_GROUP -l $LOCATION
+STA_ID=$(az storage account create -n $STORAGE -g $RESOURCE_GROUP --location $LOCATION --sku Standard_LRS --query "id" -o tsv)
+az functionapp create -g $RESOURCE_GROUP -n $FUNC -s $STA_ID \
+    --consumption-plan-location $LOCATION \
+    --functions-version 3 \
+    --os-type Linux \
+    --runtime dotnet
