@@ -1,14 +1,25 @@
 PREFIX=$1
+SQLPASSWORD=$2
 
 RESOURCE_GROUP="$PREFIX-SYD-ARG-86400"
 FUNC="$PREFIX-SYD-FUN-86400"
 STORAGE="${PREFIX,,}sydsta86400"
+SQL="${PREFIX,,}-syd-sql-86400"
 LOCATION="australiaeast"
 
 az group create -n $RESOURCE_GROUP -l $LOCATION
 STA_ID=$(az storage account create -n $STORAGE -g $RESOURCE_GROUP --location $LOCATION --sku Standard_LRS --query "id" -o tsv)
+az sql server create -l $LOCATION -g $RESOURCE_GROUP -n $SQL -u "PwsAdmin" -p $SQLPASSWORD
+az sql db create -g $RESOURCE_GROUP -s $SQL -n BankTransactions -e GeneralPurpose -f Gen5 -c 2 --compute-model Serverless --auto-pause-delay 120
+
+CN="Server=tcp:${SQL}.database.windows.net,1433;Database=BankTransactions;User ID=PwsAdmin@${SQL};Password=${SQLPASSWORD};Trusted_Connection=False;Encrypt=True;"
+
 az functionapp create -g $RESOURCE_GROUP -n $FUNC -s $STA_ID \
     --consumption-plan-location $LOCATION \
     --functions-version 3 \
-    --os-type Linux \
-    --runtime dotnet
+    --os-type Windows \
+    --runtime dotnet-isolated \
+    -u https://github.com/mrsmitty/86400-statement-process.git \
+    -b "feature/function"
+
+az functionapp config appsettings set --name $FUNC --resource-group $RESOURCE_GROUP --settings "SqlConnectionString=${CN}"
