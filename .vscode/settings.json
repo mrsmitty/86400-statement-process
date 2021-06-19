@@ -4,9 +4,10 @@
         "titleBar.activeBackground": "#7C1D16",
         "titleBar.activeForeground": "#FEFCFB"
     },
-    "azureFunctions.deploySubpath": "src/bin/Release/netcoreapp3.1/publish",
+    "azureFunctions.deploySubpath": "FunctionApp/bin/Release/netcoreapp3.1/publish",
     "azureFunctions.projectLanguage": "C#",
     "azureFunctions.projectRuntime": "~3",
     "debug.internalConsoleOptions": "neverOpen",
-    "azureFunctions.preDeployTask": "publish"
+    "azureFunctions.preDeployTask": "publish",
+    "azureFunctions.projectSubpath": "FunctionApp"
 }
