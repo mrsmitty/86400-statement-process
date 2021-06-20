@@ -13,8 +13,7 @@ namespace FunctionApp.Models
         {
         }
         
-        //public DbSet<BankTransaction> BankTransactions { get; set; }
-        public DbSet<BankStatement> Statements { get; set; }
-
+        public DbSet<BankStatement> BankStatements { get; set; }
+        public DbSet<BankTransaction> BankTransactions { get; set; }
     }
 }

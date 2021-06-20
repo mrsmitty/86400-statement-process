@@ -1,5 +1,6 @@
 ﻿using FunctionApp.Interfaces;
 using FunctionApp.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,16 +19,22 @@ namespace FunctionApp.Services
             this.context = context;
         }
         
-        public Task WriteBankStatementAsync()
+        public async Task WriteBankStatementAsync(Models.BankStatement statement)
         {
-            return Task.CompletedTask;
+            context.BankStatements.Add(statement);
+            await context.SaveChangesAsync();
         }
 
-        public async Task UpgradeDatabase()
+        public async Task UpgradeDatabaseAsync()
         {
             var sql = await File.ReadAllTextAsync("DDL.sql");
-            // context.Database.ExecuteSqlCommand(sql);
-            
+            context.Database.ExecuteSqlRaw(sql);
+        }
+
+        public async Task WriteBankTransactionsAsync(IEnumerable<BankTransaction> transactions)
+        {
+            context.BankTransactions.AddRange(transactions);
+            await context.SaveChangesAsync();
         }
     }
 }

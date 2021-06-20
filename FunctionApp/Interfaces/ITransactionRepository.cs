@@ -9,6 +9,8 @@ namespace FunctionApp.Interfaces
 {
     public interface ITransactionRepository
     {
-        Task WriteBankStatementAsync();
+        Task UpgradeDatabaseAsync();
+        Task WriteBankStatementAsync(Models.BankStatement statement);
+        Task WriteBankTransactionsAsync(IEnumerable<BankTransaction> transactions);
     }
 }
