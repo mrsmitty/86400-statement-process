@@ -1,0 +1,11 @@
+{
+    "azureFunctions.deploySubpath": "bin/Release/net5.0/publish",
+    "azureFunctions.projectLanguage": "C#",
+    "azureFunctions.projectRuntime": "~3",
+    "azureFunctions.preDeployTask": "publish",
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#213304",
+        "titleBar.activeBackground": "#2E4705",
+        "titleBar.activeForeground": "#F5FDE9"
+    }
+}
