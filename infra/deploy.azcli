@@ -18,8 +18,8 @@ az functionapp create -g $RESOURCE_GROUP -n $FUNC -s $STA_ID \
     --consumption-plan-location $LOCATION \
     --functions-version 3 \
     --os-type Windows \
-    --runtime dotnet-isolated \
+    --runtime dotnet \
     -u https://github.com/mrsmitty/86400-statement-process.git \
-    -b "feature/function"
+    -b "master"
 
 az functionapp config appsettings set --name $FUNC --resource-group $RESOURCE_GROUP --settings "SqlConnectionString=${CN}"

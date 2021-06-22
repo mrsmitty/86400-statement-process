@@ -35,10 +35,10 @@ namespace FunctionApp
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var raw = JsonConvert.DeserializeObject<DocParserRoot>(requestBody);
             var statement = raw.ToBankStatement();
-            
+
+            log.LogInformation($"Processiong {statement.BankTransactions.Count}");
             await transactionRepository.AddBankStatementAsync(statement);
-            var result = await transactionRepository.GetTransactionsAsync(statement.AccountNumber);
-            return new OkObjectResult(result);
+            return new OkResult();
         }
     }
 }
