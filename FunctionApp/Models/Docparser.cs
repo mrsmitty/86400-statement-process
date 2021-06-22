@@ -25,7 +25,7 @@ namespace FunctionApp.Models
         public DateTime uploaded_at { get; set; }
         public DateTime processed_at { get; set; }
         public List<TableData> table_data { get; set; }
-        public string account_number { get; set; }
+        public string accountnumber { get; set; }
     }
 
 }

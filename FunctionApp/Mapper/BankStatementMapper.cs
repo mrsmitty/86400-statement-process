@@ -17,7 +17,7 @@ namespace FunctionApp.Mapper
                 ImportDate = DateTime.UtcNow,
                 ProcessDate = src.processed_at,
                 BankTransactions = src.table_data.Select(x => x.ToBankTransaction()).ToList(),
-                AccountNumber = src.account_number
+                AccountNumber = src.accountnumber
             };
         }
     }
