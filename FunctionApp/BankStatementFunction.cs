@@ -34,14 +34,11 @@ namespace FunctionApp
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var raw = JsonConvert.DeserializeObject<DocParserRoot>(requestBody);
+            var statement = raw.ToBankStatement();
             
-            var transactions = raw.table_data.Select(x => x.ToBankTransaction());
-            await transactionRepository.WriteBankTransactionsAsync(transactions);
-            
-            //var statement = raw.ToBankStatement();
-            //await transactionRepository.WriteBankStatementAsync(statement);
-            
-            return new OkObjectResult(transactions);
+            await transactionRepository.AddBankStatementAsync(statement);
+            var result = await transactionRepository.GetTransactionsAsync(statement.AccountNumber);
+            return new OkObjectResult(result);
         }
     }
 }

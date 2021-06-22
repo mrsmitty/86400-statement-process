@@ -1,4 +1,5 @@
-﻿using FunctionApp.Models;
+﻿using FunctionApp.DTO;
+using FunctionApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,7 @@ namespace FunctionApp.Interfaces
 {
     public interface ITransactionRepository
     {
-        Task UpgradeDatabaseAsync();
-        Task WriteBankStatementAsync(Models.BankStatement statement);
-        Task WriteBankTransactionsAsync(IEnumerable<BankTransaction> transactions);
+        Task AddBankStatementAsync(BankStatement statement);
+        Task<IList<TransactionEntry>> GetTransactionsAsync(string accountNumber);
     }
 }

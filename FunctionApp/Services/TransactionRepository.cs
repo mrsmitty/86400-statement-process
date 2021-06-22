@@ -1,40 +1,44 @@
-﻿using FunctionApp.Interfaces;
+﻿using FunctionApp.DTO;
+using FunctionApp.Interfaces;
 using FunctionApp.Models;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FunctionApp.Services
 {
-    public class TransactionRepository : ITransactionRepository
+    public class TransactionRepository : BaseRepository, ITransactionRepository
     {
-        private readonly BankTransactionsContext context;
 
-        public TransactionRepository(BankTransactionsContext context)
+        public TransactionRepository(BankTransactionsContext context) : base(context)
         {
-            this.context = context;
-        }
-        
-        public async Task WriteBankStatementAsync(Models.BankStatement statement)
-        {
-            context.BankStatements.Add(statement);
-            await context.SaveChangesAsync();
         }
 
-        public async Task UpgradeDatabaseAsync()
+        public async Task AddBankStatementAsync(BankStatement statement)
         {
-            var sql = await File.ReadAllTextAsync("DDL.sql");
-            context.Database.ExecuteSqlRaw(sql);
+            var items = await GetItemsAsync<BankStatement>(x => x.DocumentId == statement.DocumentId);
+            if (items.Any())
+                await base.DeleteItemAsync(items.First());
+
+            await base.AddItemAsync(statement);
         }
 
-        public async Task WriteBankTransactionsAsync(IEnumerable<BankTransaction> transactions)
+        public async Task<IList<TransactionEntry>> GetTransactionsAsync(string accountNumber)
         {
-            context.BankTransactions.AddRange(transactions);
-            await context.SaveChangesAsync();
+            var result = await GetItemsAsync<BankTransaction>(
+                x => x.BankStatement.AccountNumber == accountNumber,
+                x => x.BankStatement);
+            return result.Select(x => new TransactionEntry
+            {
+                Id = x.Id,
+                TransactionDate = x.TransactionDate,
+                Description = x.Description,
+                Debit = x.Debit,
+                Credit = x.Credit,
+                Amount = x.Amount,
+                Balance = x.Balance,
+                AccountNumber = x.BankStatement.AccountNumber
+            }).ToList();
         }
     }
 }

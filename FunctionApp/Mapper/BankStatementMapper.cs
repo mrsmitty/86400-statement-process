@@ -1,6 +1,7 @@
 ﻿using FunctionApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace FunctionApp.Mapper
@@ -14,7 +15,9 @@ namespace FunctionApp.Mapper
                 Filename = src.file_name,
                 DocumentId = src.document_id,
                 ImportDate = DateTime.UtcNow,
-                ProcessDate = src.processed_at
+                ProcessDate = src.processed_at,
+                BankTransactions = src.table_data.Select(x => x.ToBankTransaction()).ToList(),
+                AccountNumber = src.account_number
             };
         }
     }

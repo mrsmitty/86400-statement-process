@@ -24,5 +24,8 @@ CREATE TABLE [BankTransactions]
     Credit DECIMAL(10,2),
     Amount as ISNULL(Credit, 0) - ISNULL(Debit, 0),
     Balance DECIMAL(10,2),
-    Category NVARCHAR(100)
+    Category NVARCHAR(100),
+    BankStatementId INT NOT NULL,
+    CONSTRAINT fk_BankStatements_BankStatementsId FOREIGN KEY (BankStatementId) REFERENCES BankStatements(Id)
+    ON DELETE CASCADE
 )

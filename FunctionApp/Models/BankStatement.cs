@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace FunctionApp.Models
 {
@@ -10,5 +11,6 @@ namespace FunctionApp.Models
         public string DocumentId { get; set; }
         public DateTime ImportDate { get; set; }
         public DateTime ProcessDate { get; set; }
+        public ICollection<BankTransaction> BankTransactions { get; set; }
     }
 }
