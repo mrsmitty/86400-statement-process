@@ -12,6 +12,6 @@ namespace FunctionApp.DTO
         public decimal Amount { get; set; }
         public decimal Balance { get; set; }
         public string AccountNumber { get; set; }
-
+        public string Category { get; set; }
     }
 }

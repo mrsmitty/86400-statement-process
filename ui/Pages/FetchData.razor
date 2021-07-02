@@ -1,0 +1,58 @@
+﻿@page "/fetchdata"
+@inject HttpClient Http
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (transactions == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var t in transactions)
+            {
+                <tr>
+                    <td>@t.TransactionDate.ToShortDateString()</td>
+                    <td>@t.Description</td>
+                    <td>@t.Amount</td>
+                    <td><input @bind="t.Category" /></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    IList<TransactionEntry> transactions;
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await Http.GetAsync("api/GetBankStatement?accountNumber=1054%200210");
+        @* response.EnsureSuccessStatusCode(); *@
+        transactions = await response.Content.ReadFromJsonAsync<IList<TransactionEntry>>();
+    }
+
+    public class TransactionEntry
+    {
+        public int Id { get; set; }
+        public DateTime TransactionDate { get; set; }
+        public string Description { get; set; }
+        public decimal? Debit { get; set; }
+        public decimal? Credit { get; set; }
+        public decimal Amount { get; set; }
+        public decimal Balance { get; set; }
+        public string AccountNumber { get; set; }
+        public string Category { get; set; }
+    }
+}
