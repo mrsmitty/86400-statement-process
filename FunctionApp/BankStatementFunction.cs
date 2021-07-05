@@ -41,9 +41,10 @@ namespace FunctionApp
         [FunctionName("GetTranasctions")]
         public async Task<IActionResult> GetTranasctionsAsync(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "{account}/transactions")] HttpRequest req,
+            string account,
             ILogger log)
         {
-            var result = await transactionRepository.GetTransactionsAsync(req.Query["accountNumber"]);
+            var result = await transactionRepository.GetTransactionsAsync(account);
             return new OkObjectResult(result);
         }
 
@@ -52,8 +53,8 @@ namespace FunctionApp
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = "{id}/transactioncategory")] HttpRequest req,
             ILogger log)
         {
-            var transRequest = await req.ParsePostBody<TransactionCategoryRequest>();
-            await transactionRepository.GetTransactionsAsync(req.Query["accountNumber"]);
+            var item = await req.ParsePostBody<TransactionCategoryRequest>();
+            await transactionRepository.UpdateTransactionCategoryAsync(item);
             return new OkResult();
         }
 
