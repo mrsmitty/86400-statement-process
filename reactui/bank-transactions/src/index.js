@@ -2,10 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import Accounts from './Accounts';
+import Identity from './Identity';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
+    <Identity />
     <Accounts />
     
   </React.StrictMode>,

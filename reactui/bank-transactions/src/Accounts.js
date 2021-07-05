@@ -19,7 +19,7 @@ class Accounts extends React.Component {
   }
 
   componentDidMount() {
-    axios.get("http://localhost:7071/api/accounts")
+    axios.get("api/accounts")
       .then(res => {
         this.setState({
           isLoaded: true,
