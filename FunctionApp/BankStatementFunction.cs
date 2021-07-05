@@ -27,7 +27,7 @@ namespace FunctionApp
 
         [FunctionName("PostTransactions")]
         public async Task<IActionResult> PostTransactionsAsync(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "transactions")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "transactions")] HttpRequest req,
             ILogger log)
         {
             var raw = await req.ParsePostBody<DocParserRoot>();
@@ -40,7 +40,7 @@ namespace FunctionApp
 
         [FunctionName("GetTranasctions")]
         public async Task<IActionResult> GetTranasctionsAsync(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "{account}/transactions")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "{account}/transactions")] HttpRequest req,
             string account,
             ILogger log)
         {
@@ -50,7 +50,7 @@ namespace FunctionApp
 
         [FunctionName("PostTransactionCategory")]
         public async Task<IActionResult> PostTransactionCategoryAsync(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "{id}/transactioncategory")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "{id}/transactioncategory")] HttpRequest req,
             ILogger log)
         {
             var item = await req.ParsePostBody<TransactionCategoryRequest>();
@@ -60,7 +60,7 @@ namespace FunctionApp
 
         [FunctionName("GetTransactionCategories")]
         public async Task<IActionResult> GetTransactionCategoriesAsync(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "transactioncategories")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "transactioncategories")] HttpRequest req,
             ILogger log)
         {
             var transRequest = await req.ParsePostBody<TransactionCategoryRequest>();
@@ -70,7 +70,7 @@ namespace FunctionApp
 
         [FunctionName("GetAccounts")]
         public async Task<IActionResult> GetAccountsAsync(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "accounts")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "accounts")] HttpRequest req,
             ILogger log)
         {
             var transRequest = await req.ParsePostBody<TransactionCategoryRequest>();
