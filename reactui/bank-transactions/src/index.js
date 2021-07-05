@@ -2,13 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import Accounts from './Accounts';
-import TransactionList from './TransactionList';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
     <Accounts />
-    <TransactionList />
+    
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import TransactionList from './TransactionList';
 
 class Accounts extends React.Component {
   constructor(props) {
@@ -7,8 +8,14 @@ class Accounts extends React.Component {
     this.state = {
       error: null,
       isLoaded: false,
-      items: []
+      items: [],
+      value: ''
     };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
   }
 
   componentDidMount() {
@@ -16,7 +23,8 @@ class Accounts extends React.Component {
       .then(res => {
         this.setState({
           isLoaded: true,
-          items: res.data
+          items: res.data,
+          value: res.data[0]
         })
       })
   };
@@ -25,7 +33,7 @@ class Accounts extends React.Component {
   render() {
     const { error, isLoaded, items } = this.state;
     const options = items.map((i) => 
-      <option value="{i}">{i}</option>
+      <option value={i}>{i}</option>
     );
     if (error) {
       return <div>Error: {error.message}</div>;
@@ -33,9 +41,12 @@ class Accounts extends React.Component {
       return <div>Loading...</div>;
     } else {
       return (
-        <select name="accounts">
-          {options}
-        </select>
+        <div>
+          <select value={this.state.value} onChange={this.handleChange}>
+            {options}
+          </select>
+          <TransactionList account={this.state.value} />
+        </div>
       );
     }
   }

@@ -11,25 +11,28 @@ class TransactionList extends React.Component {
     this.state = {
       error: null,
       isLoaded: false,
+      account: props.account,
       items: []
     };
   }
 
-  componentDidMount() {
-    axios.get("http://localhost:7071/api/1054 0210/transactions")
-      .then(res => {
-        this.setState({
-          isLoaded: true,
-          items: res.data
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.account !== this.props.account) {
+      axios.get(`api/${this.props.account}/transactions`)
+        .then(res => {
+          this.setState({
+            isLoaded: true,
+            items: res.data
+          })
         })
-      })
+    }
   };
 
   setCategory(item) {
-    axios.post(`http://localhost:7071/api/${item.id}/transactioncategory`, item)
-    .then(res => {
-      console.log(res);
-    });
+    axios.post(`api/${item.id}/transactioncategory`, item)
+      .then(res => {
+        console.log(res);
+      });
   };
 
   render() {
@@ -44,7 +47,7 @@ class TransactionList extends React.Component {
     const categorySetter = (event) => {
       console.log(event);
       event.data.category = event.newValue;
-      this.setCategory({id: event.data.id, category: event.newValue});
+      this.setCategory({ id: event.data.id, category: event.newValue });
       return true
     };
 
