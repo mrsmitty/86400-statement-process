@@ -11,6 +11,9 @@ namespace FunctionApp.Interfaces
     public interface ITransactionRepository
     {
         Task AddBankStatementAsync(BankStatement statement);
+        Task<IList<string>> GetAccountNumbers();
+        Task<IList<string>> GetCategories();
         Task<IList<TransactionEntry>> GetTransactionsAsync(string accountNumber);
+        Task UpdateTransactionCategoryAsync(TransactionCategoryRequest request);
     }
 }
