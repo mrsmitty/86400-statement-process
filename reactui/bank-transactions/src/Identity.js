@@ -9,12 +9,11 @@ class Identity extends React.Component {
     };
   }
 
-
   componentDidMount() {
     axios.get("/.auth/me")
       .then(res => {
         this.setState({
-          user: res.data.userDetails,
+          user: res.data.clientPrincipal.userDetails,
           isLoaded: true
         })
       })
@@ -22,22 +21,16 @@ class Identity extends React.Component {
 
 
   render() {
-    if (this.state.isLoaded) {
-      if (this.state.user) {
-        return <div>Hello, {this.state.user}</div>;
-      }
-      else {
-        return (
-          <div>
-            <a href="/.auth/login/github">Login</a>
-          </div>
-        );
-      }
+    if (this.state.user) {
+      return <div>Hello, {this.state.user}</div>;
     }
     else {
-      return <div>Loading...</div>;
+      return (
+        <div>
+          <a href="/.auth/login/github">Login</a>
+        </div>
+      );
     }
-
   }
 }
 
