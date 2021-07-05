@@ -1,11 +1,22 @@
 PREFIX=$1
 SQLPASSWORD=$2
+PAT=$3
 
 RESOURCE_GROUP="$PREFIX-SYD-ARG-86400"
 FUNC="$PREFIX-SYD-FUN-86400"
 STORAGE="${PREFIX,,}sydsta86400"
 SQL="${PREFIX,,}-syd-sql-86400"
+WEB="${PREFIX,,}-syd-web-86400"
 LOCATION="australiaeast"
+SOURCE="https://github.com/mrsmitty/86400-statement-process"
+BRANCH="feature/reactui"
+
+az staticwebapp create -n $WEB -g $RESOURCE_GROUP -s $SOURCE -b $BRANCH -l centralus --token $PAT \
+    --app-location "reactui/bank-transactions" \
+    --output-location "build" \
+    --debug
+
+exit
 
 az group create -n $RESOURCE_GROUP -l $LOCATION
 STA_ID=$(az storage account create -n $STORAGE -g $RESOURCE_GROUP --location $LOCATION --sku Standard_LRS --query "id" -o tsv)
@@ -23,3 +34,4 @@ az functionapp create -g $RESOURCE_GROUP -n $FUNC -s $STA_ID \
     -b "master"
 
 az functionapp config appsettings set --name $FUNC --resource-group $RESOURCE_GROUP --settings "SqlConnectionString=${CN}"
+

@@ -1,6 +1,7 @@
 ﻿using FunctionApp.DTO;
 using FunctionApp.Interfaces;
 using FunctionApp.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -52,8 +53,28 @@ namespace FunctionApp.Services
                 Credit = x.Credit,
                 Amount = x.Amount,
                 Balance = x.Balance,
+                Category = x.Category,
                 AccountNumber = x.BankStatement.AccountNumber
             }).ToList();
+        }
+
+        public async Task UpdateTransactionCategoryAsync(TransactionCategoryRequest request)
+        {
+            var item = new BankTransaction{ Id = request.Id, Category = request.Category};
+            context.Entry(item).Property(x => x.Category).IsModified = true;
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<IList<string>> GetCategories()
+        {
+            return await (from t in context.BankTransactions
+                          select t.Category).Distinct().ToListAsync();
+        }
+
+        public async Task<IList<string>> GetAccountNumbers()
+        {
+            return await (from s in context.BankStatements
+                          select s.AccountNumber).Distinct().ToListAsync();
         }
     }
 }
