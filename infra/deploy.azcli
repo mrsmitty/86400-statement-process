@@ -9,14 +9,14 @@ SQL="${PREFIX,,}-syd-sql-86400"
 WEB="${PREFIX,,}-syd-web-86400"
 LOCATION="australiaeast"
 SOURCE="https://github.com/mrsmitty/86400-statement-process"
-BRANCH="feature/reactui"
+BRANCH="master"
 
 az staticwebapp create -n $WEB -g $RESOURCE_GROUP -s $SOURCE -b $BRANCH -l centralus --token $PAT \
     --app-location "reactui/bank-transactions" \
-    --output-location "build" \
-    --debug
+    --sku "Standard"
+    --output-location "build"
 
-exit
+exit 0
 
 az group create -n $RESOURCE_GROUP -l $LOCATION
 STA_ID=$(az storage account create -n $STORAGE -g $RESOURCE_GROUP --location $LOCATION --sku Standard_LRS --query "id" -o tsv)
