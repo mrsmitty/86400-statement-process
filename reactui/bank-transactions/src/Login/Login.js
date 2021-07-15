@@ -19,7 +19,7 @@ export default function Login() {
     async function auth() {
       const res = await axios.get("/.auth/me");
       console.log(res);
-      if (res.data) {
+      if (res.status === 200) {
         setUser(res.data.clientPrincipal.userDetails);
       }
     }

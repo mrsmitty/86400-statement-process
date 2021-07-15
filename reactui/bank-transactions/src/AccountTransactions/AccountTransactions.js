@@ -16,7 +16,12 @@ const columnTypes = {
 const setCategory = async (event) => {
     try {
         if (event.data.category !== event.newValue) {
-            const result = await axios.post(`api/${event.data.id}/transactioncategory`, event.newValue);
+            const result = await axios.post(`api/${event.data.id}/transactioncategory`,
+                {
+                    id: event.data.id,
+                    category: event.newValue
+                });
+                
             event.data.category = event.newValue;
             console.log(result);
         }
