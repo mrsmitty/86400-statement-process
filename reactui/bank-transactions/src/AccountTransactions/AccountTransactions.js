@@ -42,7 +42,6 @@ export default function AccountTransactions(props) {
             setTransactions(response.data);
             setLoading(false);
         };
-        console.log(props);
         GetTransactions(props.accountNumber);
     }, [props.accountNumber]);
 

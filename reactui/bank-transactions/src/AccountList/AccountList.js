@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useReducer } from 'react';
-import { Paper, Typography } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List'
@@ -63,7 +63,7 @@ export default function AccountList() {
             setLoading(false);
         }
         GetAccounts();
-    }, [0]);
+    }, []);
 
     const formatter = new Intl.NumberFormat('en-AU', {
         style: 'currency',
