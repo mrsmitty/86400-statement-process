@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
@@ -29,16 +29,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AccountList() {
+    const currentAccount = {
+        selectedIndex: -1,
+        selectedAccountNumber: null
+    };
+
     const [isLoading, setLoading] = useState(true);
     const [accounts, setAccounts] = useState([]);
-    const [selectedIndex, setSelectedIndex] = useState(0);
-    const [selectedAccountNumber, setSelectedAccountNumber] = useState(null);
+    const [accountState, setAccount] = useReducer(setAccountState, currentAccount)
     const classes = useStyles();
 
+    function setAccountState(state, index) {
+        if (accounts.length > 0 && accounts.length > index){
+            return {
+                selectedIndex: index,
+                selectedAccountNumber: accounts[index].accountNumber
+            };
+        } else {
+            return state;
+        }
+    }
+
     const handleAccountClick = (event, index) => {
-        console.log(index, `AccountList ${selectedAccountNumber}`)
-        setSelectedIndex(index);
-        setSelectedAccountNumber(accounts[index].accountNumber);
+        setAccount(index);
     };
 
     useEffect(() => {
@@ -46,22 +59,22 @@ export default function AccountList() {
             setLoading(true);
             const response = await axios.get("api/accounts");
             setAccounts(response.data);
-            setSelectedAccountNumber(response.data[selectedIndex].accountNumber);
+            setAccount(0);
             setLoading(false);
         }
         GetAccounts();
-    }, []);
-    
+    }, [0]);
+
     const formatter = new Intl.NumberFormat('en-AU', {
         style: 'currency',
         currency: 'AUD',
-      });
+    });
 
     const accountList = accounts.map((item, i) =>
         <ListItem
             button
             className={classes.accountList}
-            selected={selectedIndex === i}
+            selected={accountState.selectedIndex === i}
             onClick={(event) => handleAccountClick(event, i)}
             key={i}>
             <div className={classes.accountNumber}>{item.nickName}</div>
@@ -77,7 +90,7 @@ export default function AccountList() {
             </Paper>
         );
     }
-    else if (accounts.length > 0) {
+    else {
         return (
             <div>
                 <Paper className={classes.paper}>
@@ -86,11 +99,9 @@ export default function AccountList() {
                     </List>
                 </Paper>
                 <Paper className={classes.paper}>
-                    <AccountTransactions accountNumber={selectedAccountNumber} />
+                    <AccountTransactions accountNumber={accountState.selectedAccountNumber} />
                 </Paper>
             </div>
         );
-    } else {
-        return <div><Typography variant="h5">Load Failed</Typography></div>
     }
 }
