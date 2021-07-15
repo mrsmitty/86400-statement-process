@@ -5,7 +5,6 @@ import { AgGridColumn, AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine-dark.css';
 
-
 const columnTypes = {
     editableColumn: { editable: true, singleClickEdit: true },
     dateColumn: {
@@ -32,20 +31,19 @@ const setCategory = async (event) => {
     }
 };
 
-export default function AccountTransactions(accountNumber) {
+export default function AccountTransactions(props) {
     const [isLoading, setLoading] = useState(true);
     const [transactions, setTransactions] = useState([]);
 
     useEffect(() => {
-        console.log(accountNumber);
-        async function GetTransactions() {
+        async function GetTransactions(accountNumber) {
             setLoading(true);
             const response = await axios.get(`api/${accountNumber}/transactions`);
             setTransactions(response.data);
             setLoading(false);
-        }
-        GetTransactions();
-    }, []);
+        };
+        GetTransactions(props.accountNumber);
+    }, [props.accountNumber]);
 
 
     if (isLoading) {

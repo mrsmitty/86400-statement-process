@@ -32,7 +32,7 @@ export default function Login() {
   }
   else {
     return (
-      <Button href="/.auth/login/github"><img className={classes.icon} src="/GitHub-Mark-Light-32px.png"></img>Login</Button>
+      <Button href="/.auth/login/github"><img className={classes.icon} alt="" src="/GitHub-Mark-Light-32px.png"></img>Login</Button>
     );
   }
 }

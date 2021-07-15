@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
@@ -29,16 +29,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AccountList() {
+    const currentAccount = {
+        selectedIndex: -1,
+        selectedAccountNumber: null
+    };
+
     const [isLoading, setLoading] = useState(true);
     const [accounts, setAccounts] = useState([]);
-    const [selectedIndex, setSelectedIndex] = useState(0);
-    const [selectedAccountNumber, setSelectedAccountNumber] = useState(null);
+    const [accountState, setAccount] = useReducer(setAccountState, currentAccount)
     const classes = useStyles();
 
+    function setAccountState(state, index) {
+        if (accounts.length > 0 && accounts.length > index){
+            return {
+                selectedIndex: index,
+                selectedAccountNumber: accounts[index].accountNumber
+            };
+        } else {
+            return state;
+        }
+    }
+
     const handleAccountClick = (event, index) => {
-        setSelectedIndex(index);
-        setSelectedAccountNumber(accounts[index].accountName);
-        console.log(event, accounts[index].accountName);
+        setAccount(index);
     };
 
     useEffect(() => {
@@ -46,21 +59,27 @@ export default function AccountList() {
             setLoading(true);
             const response = await axios.get("api/accounts");
             setAccounts(response.data);
+            setAccount(0);
             setLoading(false);
         }
         GetAccounts();
     }, []);
 
+    const formatter = new Intl.NumberFormat('en-AU', {
+        style: 'currency',
+        currency: 'AUD',
+    });
+
     const accountList = accounts.map((item, i) =>
         <ListItem
             button
             className={classes.accountList}
-            selected={selectedIndex === i}
+            selected={accountState.selectedIndex === i}
             onClick={(event) => handleAccountClick(event, i)}
             key={i}>
             <div className={classes.accountNumber}>{item.nickName}</div>
-            <div className={classes.accountName}>{item.accountName}</div>
-            <div className={classes.balance}>{item.balance}</div>
+            <div className={classes.accountName}>{item.accountNumber}</div>
+            <div className={classes.balance}>{formatter.format(item.balance)}</div>
         </ListItem>
     );
 
@@ -80,7 +99,7 @@ export default function AccountList() {
                     </List>
                 </Paper>
                 <Paper className={classes.paper}>
-                    <AccountTransactions accountName={selectedAccountNumber} />
+                    <AccountTransactions accountNumber={accountState.selectedAccountNumber} />
                 </Paper>
             </div>
         );
