@@ -5,6 +5,12 @@ VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunctionApp", "FunctionApp\FunctionApp.csproj", "{6092BA8B-6E11-4E9E-B210-59B6FB386788}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MachineLearning", "MachineLearning\MachineLearning.csproj", "{6F3E922A-FF04-42C4-84C7-5E27A29BDC9F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunctionAppML.Model", "FunctionAppML.Model\FunctionAppML.Model.csproj", "{8175EB06-A618-480C-88D0-39F125FED77B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunctionAppML.ConsoleApp", "FunctionAppML.ConsoleApp\FunctionAppML.ConsoleApp.csproj", "{CB628B80-EBD7-407E-8740-83BE3F0E44E9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +21,18 @@ Global
 		{6092BA8B-6E11-4E9E-B210-59B6FB386788}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6092BA8B-6E11-4E9E-B210-59B6FB386788}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6092BA8B-6E11-4E9E-B210-59B6FB386788}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F3E922A-FF04-42C4-84C7-5E27A29BDC9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F3E922A-FF04-42C4-84C7-5E27A29BDC9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F3E922A-FF04-42C4-84C7-5E27A29BDC9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F3E922A-FF04-42C4-84C7-5E27A29BDC9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8175EB06-A618-480C-88D0-39F125FED77B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8175EB06-A618-480C-88D0-39F125FED77B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8175EB06-A618-480C-88D0-39F125FED77B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8175EB06-A618-480C-88D0-39F125FED77B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB628B80-EBD7-407E-8740-83BE3F0E44E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB628B80-EBD7-407E-8740-83BE3F0E44E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB628B80-EBD7-407E-8740-83BE3F0E44E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB628B80-EBD7-407E-8740-83BE3F0E44E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

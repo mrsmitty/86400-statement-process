@@ -60,7 +60,7 @@ namespace FunctionApp.Services
 
         public async Task UpdateTransactionCategoryAsync(TransactionCategoryRequest request)
         {
-            var item = new BankTransaction{ Id = request.Id, Category = request.Category};
+            var item = new BankTransaction { Id = request.Id, Category = request.Category };
             context.Entry(item).Property(x => x.Category).IsModified = true;
             await context.SaveChangesAsync();
         }
@@ -71,10 +71,13 @@ namespace FunctionApp.Services
                           select t.Category).Distinct().ToListAsync();
         }
 
-        public async Task<IList<string>> GetAccountNumbers()
+        public async Task<IList<AccountSummary>> GetAccountNumbers()
         {
             return await (from s in context.BankStatements
-                          select s.AccountNumber).Distinct().ToListAsync();
+                          select new AccountSummary(
+                              s.AccountNumber,
+                              s.BankTransactions.Sum(x => x.Amount)
+                          )).ToListAsync();
         }
     }
 }
