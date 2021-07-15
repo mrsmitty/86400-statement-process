@@ -1,15 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Accounts from './Accounts';
-import Identity from './Identity';
+import AccountList from './AccountList/AccountList';
+import MainAppBar from './MainAppBar/MainAppBar';
 import reportWebVitals from './reportWebVitals';
+import { createTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core/styles';
+
+const theme = createTheme({
+  palette: {
+    type: 'dark',
+  },
+});
+
+function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      <MainAppBar />
+      <AccountList />
+    </ThemeProvider>
+  );
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <Identity />
-    <Accounts />
-    
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
