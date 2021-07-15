@@ -73,11 +73,10 @@ namespace FunctionApp.Services
 
         public async Task<IList<AccountSummary>> GetAccountNumbers()
         {
-            return await (from s in context.BankStatements
-                          select new AccountSummary(
-                              s.AccountNumber,
-                              s.BankTransactions.Sum(x => x.Amount)
-                          )).ToListAsync();
+            return await context.BankTransactions
+                .GroupBy(x => x.BankStatement.AccountNumber)
+                .Select(x => new AccountSummary(x.Key, x.Sum(s => s.Amount)))
+                .ToListAsync();
         }
     }
 }
