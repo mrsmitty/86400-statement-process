@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Paper } from '@material-ui/core';
+import { Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List'
@@ -36,9 +36,9 @@ export default function AccountList() {
     const classes = useStyles();
 
     const handleAccountClick = (event, index) => {
+        console.log(index, `AccountList ${selectedAccountNumber}`)
         setSelectedIndex(index);
-        setSelectedAccountNumber(accounts[index].accountName);
-        console.log(event, accounts[index].accountName);
+        setSelectedAccountNumber(accounts[index].accountNumber);
     };
 
     useEffect(() => {
@@ -46,10 +46,16 @@ export default function AccountList() {
             setLoading(true);
             const response = await axios.get("api/accounts");
             setAccounts(response.data);
+            setSelectedAccountNumber(response.data[selectedIndex].accountNumber);
             setLoading(false);
         }
         GetAccounts();
     }, []);
+    
+    const formatter = new Intl.NumberFormat('en-AU', {
+        style: 'currency',
+        currency: 'AUD',
+      });
 
     const accountList = accounts.map((item, i) =>
         <ListItem
@@ -59,8 +65,8 @@ export default function AccountList() {
             onClick={(event) => handleAccountClick(event, i)}
             key={i}>
             <div className={classes.accountNumber}>{item.nickName}</div>
-            <div className={classes.accountName}>{item.accountName}</div>
-            <div className={classes.balance}>{item.balance}</div>
+            <div className={classes.accountName}>{item.accountNumber}</div>
+            <div className={classes.balance}>{formatter.format(item.balance)}</div>
         </ListItem>
     );
 
@@ -71,7 +77,7 @@ export default function AccountList() {
             </Paper>
         );
     }
-    else {
+    else if (accounts.length > 0) {
         return (
             <div>
                 <Paper className={classes.paper}>
@@ -80,9 +86,11 @@ export default function AccountList() {
                     </List>
                 </Paper>
                 <Paper className={classes.paper}>
-                    <AccountTransactions accountName={selectedAccountNumber} />
+                    <AccountTransactions accountNumber={selectedAccountNumber} />
                 </Paper>
             </div>
         );
+    } else {
+        return <div><Typography variant="h5">Load Failed</Typography></div>
     }
 }
