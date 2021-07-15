@@ -1,0 +1,9 @@
+{
+    "routes": [
+      {
+        "route": "/api/*",
+        "methods": ["GET", "PUT", "POST", "PATCH", "DELETE"],
+        "allowedRoles": ["authenticated"]
+      }
+    ]
+}
