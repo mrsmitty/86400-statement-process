@@ -1,4 +1,4 @@
-namespace FunctionApp.DTO
+namespace Services.Core.DTO
 {
     public class TransactionCategoryRequest
     {

@@ -1,6 +1,6 @@
-﻿using FunctionApp.DTO;
-using FunctionApp.Interfaces;
-using FunctionApp.Models;
+﻿using Services.Core.DTO;
+using Services.Core.Interfaces;
+using Services.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FunctionApp.Services
+namespace Services.Core.Services
 {
     public class TransactionRepository : BaseRepository, ITransactionRepository
     {

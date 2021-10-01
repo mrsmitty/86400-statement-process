@@ -1,9 +1,9 @@
-﻿using FunctionApp.DTO;
-using FunctionApp.Models;
+﻿using Services.Core.DTO;
+using Services.Core.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FunctionApp.Interfaces
+namespace Services.Core.Interfaces
 {
     public interface ITransactionRepository
     {

@@ -1,5 +1,5 @@
-﻿using FunctionApp.Interfaces;
-using FunctionApp.Models;
+﻿using Services.Core.Interfaces;
+using Services.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace FunctionApp.Services
+namespace Services.Core.Services
 {
     public abstract class BaseRepository
     {

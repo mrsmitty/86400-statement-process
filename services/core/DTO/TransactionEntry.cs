@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FunctionApp.DTO
+namespace Services.Core.DTO
 {
     public class TransactionEntry
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace FunctionApp.Models
+namespace Services.Core.Models
 {
     public class BankTransactionsContext : DbContext
     {

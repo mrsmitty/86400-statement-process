@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FunctionApp.Models
+namespace Services.Core.Models
 {
     public class BankStatement
     {

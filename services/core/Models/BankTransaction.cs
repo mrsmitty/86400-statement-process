@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FunctionApp.Models
+namespace Services.Core.Models
 {
     public class BankTransaction
     {

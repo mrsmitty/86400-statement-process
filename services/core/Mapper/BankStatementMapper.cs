@@ -1,10 +1,10 @@
-﻿using FunctionApp.Models;
+﻿using Services.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace FunctionApp.Mapper
+namespace Services.Core.Mapper
 {
     public static class BankStatementMapper
     {
